@@ -23,7 +23,7 @@ class HomeController extends BaseController {
 
         ->with('questions',Question::with('users','tags')->  
 
-          orderBy('id','desc')->paginate(2)); 
+          orderBy('id','desc')->paginate(4)); 
 
      } 
 }

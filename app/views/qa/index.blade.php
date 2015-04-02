@@ -6,8 +6,6 @@
 
 <h1>{{$title}}</h1> 
 
-
-
 @if(count($questions)) 
 
 
@@ -29,27 +27,27 @@ $tags = $question->tags;
 
 
 <div class="qwrap questions"> 
-
+      <div class="row">
 	{{-- Guests cannot see the vote arrows --}} 
-
+            <div class="container">
 	@if(Sentry::check()) 
 
-	<div class="arrowbox"> 
+	<div class="arrowbox well col-sm-1 col-md-1 col-lg-1"> 
 		{{HTML::linkRoute('vote','',array('up',   
 
-			$question->id),array('class'=>'like',   
+			$question->id),array('class'=>'glyphicon glyphicon-thumbs-up',   
 
 			'title'=>'Upvote'))}} 
-
+            <br>
 		{{HTML::linkRoute('vote','',array('down',  
 
-			$question->id),array('class'=>'dislike',  
+			$question->id),array('class'=>'glyphicon glyphicon-thumbs-down',  
 
 			'title'=>'Downvote'))}} 
 
-		</div> 
+	</div> 
 
-		@endif 
+	@endif 
 
 
 
@@ -57,11 +55,11 @@ $tags = $question->tags;
 
 		@if($question->votes > 0) 
 
-		<div class="cntbox cntgreen"> 
+		<div class="cntbox"> 
 
 			@elseif($question->votes == 0) 
 
-			<div class="cntbox"> 
+			<div class="cntbox well cntgreen col-sm-1 col-md-1 col-lg-1"> 
 
 				@else 
 
@@ -81,7 +79,7 @@ $tags = $question->tags;
 
             chapter--}} 
 
-            <div class="cntbox"> 
+            <div class="cntbox well col-sm-1 col-md-1 col-lg-1"> 
 
             	<div class="cntcount">0</div> 
 
@@ -91,7 +89,7 @@ $tags = $question->tags;
 
 
 
-            <div class="qtext"> 
+            <div class="qtext col-sm-8 col-md-8 col-lg-8"> 
 
             	<div class="qhead"> 
 
@@ -127,9 +125,9 @@ $tags = $question->tags;
             			
 
             			@endif 
-
-            		</div> 
-
+                        </div>
+            		</div> {{-- end of row --}}
+                        </div>
             	</div> 
 
             	@endforeach 
