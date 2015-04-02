@@ -88,6 +88,74 @@ class QuestionsController extends \BaseController {
 	}
 
 
+
+    /** 
+      * Vote AJAX Request 
+    **/ 
+
+    public function getVote($direction,$id) { 
+
+
+
+      //request has to be AJAX Request 
+
+      if(Request::ajax()) { 
+
+
+
+        $question = Question::find($id); 
+
+
+
+        //if the question id is valid 
+
+        if($question) { 
+
+
+
+          //new vote count 
+
+          if($direction == 'up') { 
+
+            $newVote = $question->votes+1; 
+
+          } else { 
+
+            $newVote = $question->votes-1; 
+
+          } 
+
+
+
+          //now the update 
+
+          $update = $question->update(array( 
+
+            'votes' => $newVote 
+
+          )); 
+
+
+
+          //we return the new number 
+
+          return $newVote; 
+
+        } else { 
+
+          //question not found 
+
+          Response::make("FAIL", 400); 
+
+        } 
+
+      } else { 
+
+        return Redirect::route('index'); 
+
+      } 
+
+     } 
 	/**
 	 * Store a newly created resource in storage.
 	 *

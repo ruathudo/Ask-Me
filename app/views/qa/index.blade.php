@@ -35,13 +35,13 @@ $tags = $question->tags;
 	<div class="arrowbox well col-sm-1 col-md-1 col-lg-1"> 
 		{{HTML::linkRoute('vote','',array('up',   
 
-			$question->id),array('class'=>'glyphicon glyphicon-thumbs-up',   
+			$question->id),array('class'=>'like glyphicon glyphicon-thumbs-up',   
 
 			'title'=>'Upvote'))}} 
             <br>
 		{{HTML::linkRoute('vote','',array('down',  
 
-			$question->id),array('class'=>'glyphicon glyphicon-thumbs-down',  
+			$question->id),array('class'=>'dislike glyphicon glyphicon-thumbs-down',  
 
 			'title'=>'Downvote'))}} 
 
@@ -55,7 +55,7 @@ $tags = $question->tags;
 
 		@if($question->votes > 0) 
 
-		<div class="cntbox"> 
+		<div class="cntbox well col-sm-1 col-md-1 col-lg-1"> 
 
 			@elseif($question->votes == 0) 
 
@@ -63,7 +63,7 @@ $tags = $question->tags;
 
 				@else 
 
-				<div class="cntbox cntred"> 
+				<div class="cntbox cntred well col-sm-1 col-md-1 col-lg-1"> 
 
 					@endif 
 
