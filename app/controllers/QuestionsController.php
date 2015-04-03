@@ -86,7 +86,49 @@ class QuestionsController extends \BaseController {
 		}
 
 	}
+	 /** 
+         * Details page 
+         **/ 
 
+         public function getDetails($id,$title) { 
+
+          //First, let's try to find the question: 
+
+          $question = Question::with('users','tags')->find($id); 
+
+
+
+          if($question) { 
+
+
+
+            //We should increase the "viewed" amount 
+
+            $question->update(array( 
+
+              'viewed' => $question->viewed+1 
+
+            )); 
+
+
+
+            return View::make('qa.details') 
+
+              ->with('title',$question->title) 
+
+              ->with('question',$question); 
+
+
+
+          } else { 
+
+            return Redirect::route('index') 
+
+            ->with('error','Question not found'); 
+
+          } 
+
+         } 
 
 
     /** 
@@ -155,7 +197,39 @@ class QuestionsController extends \BaseController {
 
       } 
 
-     } 
+     }
+     /** 
+     * Deletes the question 
+     **/ 
+
+
+
+    public function getDelete($id) { 
+
+      //First, let's try to find the question: 
+
+      $question = Question::find($id); 
+
+
+
+      if($question) { 
+
+        //We delete the question directly 
+
+        Question::delete(); 
+        return Redirect::route('index') 
+
+          ->with('success','Question deleted successfully!'); 
+
+      } else { 
+
+        return Redirect::route('index') 
+
+          ->with('error','Nothing to delete!'); 
+
+      } 
+
+    }  
 	/**
 	 * Store a newly created resource in storage.
 	 *
