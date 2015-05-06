@@ -6,11 +6,14 @@
       <div class="inner">
             <h1>Hello.</h1>
             <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua.
+            	“What’s in the box?”
+            </p>
+            <p>
+            	Come join our community of asking and answering now!
             </p>
 
-            {{HTML::link('signup','Ask something', array('class'=>'btn btn-success margin-top-10'))}}
+
+            {{HTML::link('ask','Ask something', array('class'=>'btn btn-default margin-top-10'))}}
       </div>
 </div>
 

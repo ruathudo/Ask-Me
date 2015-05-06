@@ -14,22 +14,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {{HTML::linkRoute('index','Laravel Ask Me',null, array('class' => 'navbar-brand'))}}  
+      {{HTML::linkRoute('index','Laravel Ask Me',null, array('class' => 'navbar-brand'))}}
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li class="{{HTML::active('browse')}}">{{HTML::linkRoute('browse','Browse')}}</li>
-            <li class="{{HTML::active('random')}}"><a href="#">Random</a></li>
+            <li class="{{HTML::active('random')}}">{{HTML::linkRoute('random','Random')}}</li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Category <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                    <li>{{HTML::linkRoute('category_show','Computers','computers')}}</li>
+                    <li>{{HTML::linkRoute('category_show','Family','family')}}</li>
+                    <li>{{HTML::linkRoute('category_show','Books','books')}}</li>
+                    <li>{{HTML::linkRoute('category_show','Animals','animals')}}</li>
+                    <li>{{HTML::linkRoute('category_show','Movies','movies')}}</li>
+                    <li>{{HTML::linkRoute('category_show','Misc','misc')}}</li>
               </ul>
             </li>
         </ul>
@@ -80,7 +79,7 @@
             </ul>
     	@else
             <ul class="nav navbar-nav navbar-right">
-            	<li class="mobile-fix"><span class="navbar-text">Hello again, 
+            	<li class="mobile-fix"><span class="navbar-text">Hello, 
                 {{HTML::link('#',Sentry::getUser()->first_name)}}!</span></li>
                 <li class="mobile-fix">
                     <p class="navbar-btn">

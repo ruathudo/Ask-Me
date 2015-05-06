@@ -22,9 +22,9 @@ class HomeController extends BaseController {
     }
 
     public function getBrowse() {
-    	return View::make('qa.browse')
-    	->with('title','Browse questions')
-    	->with('questions',Question::with('users','tags')
+    	return View::make('qa.browsee')
+    	->with('title','All questions')
+    	->with('questions',Question::with('users','tags','answers')
     		->orderBy('id','desc')->paginate(4));
     }
 

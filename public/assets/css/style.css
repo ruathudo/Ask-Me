@@ -1,8 +1,13 @@
-
+html {
+	position:relative;
+	min-height: 100%;
+}
 
 body {
 	background: url('../images/bg-1920.jpg') no-repeat center center fixed;
-	height:100vh;
+	height:100%;
+	margin:0;
+	padding:0;
 }
 em {
 	font-style: italic;
@@ -53,13 +58,30 @@ a:hover {
 .container {
 	height:75%;
 }
+.content-wrapper {
+	padding-bottom: 60px;
+	margin-bottom: 20px;
+}
 
 .cover-wrapper {
 	max-height: 100%;
 	color: white;
 }
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #2c3e50;
+}
+.question-bg{
+    background-color: rgba(58, 58, 58, 0.04);
+}
+
 .inner{
+	padding-bottom: 20px;
 	margin-top:16%;
 }
 	.inner h1 {
@@ -74,19 +96,16 @@ a:hover {
 		font-size:20px;
 	}
 
+	.inner .btn {
+		padding: 12px 30px;
+	}
 
 @media(max-width:768px){
 	.mobile-fix {
 		text-align: center;
 	}
+	.inner {
+		margin-top:10%;
+	}
 }
 
-.qhead{
-	font-weight: bold;
-	color:blue;
-	font-size: 150%;
-
-}
-.cntbox{
-	color: #3E5161;
-}

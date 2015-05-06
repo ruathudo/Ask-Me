@@ -31,7 +31,8 @@ class QuestionsController extends \BaseController {
 			$create = Question::create(array(
 				'user_id' => Sentry::getUser()->id,
 				'title' => Input::get('title'),
-				'question' => Input::get('question')
+				'question' => Input::get('question'),
+                'category_id' => Input::get('category')
 				));
 
 			// Get the insert id of question
@@ -43,7 +44,7 @@ class QuestionsController extends \BaseController {
 			// Check if tags column is filled, split strings, add new tag and relation
 			if (Str::length(Input::get('tags'))) {
 
-				// 'explode' all tags from commnas
+				// 'explode' all tags from commmas
 				$tags_array = explode(',', Input::get('tags'));
 
 				// Check new tag to add to database and attach to new question
@@ -94,34 +95,53 @@ class QuestionsController extends \BaseController {
 			
 		}
 	}
-	 /** 
-         * Details page 
-         **/ 
+	 /**
+         * Details page
+         **/
 
-         public function getDetails($id,$title) { 
+         public function getDetails($id,$title) {
 
-          //First, let's try to find the question: 
-          $question = Question::with('users','tags')->find($id); 
+          //First, let's try to find the question:
+          $question = Question::with('users','tags','answers','categories')->find($id);
 
-          if($question) { 
-          	
-            //We should increase the "viewed" amount 
-            $question->update(array( 
-              'viewed' => $question->viewed+1 
-            )); 
+          if($question) {
+            //We should increase the "viewed" amount
+            $question->update(array(
+              'viewed' => $question->viewed+1
+            ));
+            return View::make('qa.details')
+              ->with('title',$question->title)
+              ->with('question',$question)
+              ->with('answers',$question->answers_paginated);
 
-            return View::make('qa.details') 
-              ->with('title',$question->title) 
-              ->with('question',$question);
+          } else {
 
-          } else { 
+            return Redirect::route('browse')
+            ->with('error','Question not found');
 
-            return Redirect::route('index') 
-            ->with('error','Question not found'); 
+          }
 
-          } 
+         }
+    /**
+     * Details page of a random question
+     **/
 
-         } 
+    public function getRandom() {
+        // Retrieve a random question from the database
+        $question = Question::orderByRaw('RAND()')->first();
+        if ($question) {
+            // Call function getDetail in QuestionsController with necessary parameters
+            return Redirect::action('QuestionsController@getDetails',
+                array('id'=>$question->id,
+                    'title'=>Str::slug($question->title)));
+        } else {
+
+            return Redirect::route('browse')
+                ->with('error', 'Question not found');
+        }
+
+
+    }
 
 
     /** 
@@ -162,16 +182,15 @@ class QuestionsController extends \BaseController {
         } 
       } else { 
 
-        return Redirect::route('index'); 
+        return Redirect::route('browse')
+            ->with('error', 'Something went wrong, please try again later.');
 
       } 
 
      }
      /** 
      * Deletes the question 
-     **/ 
-
-
+     **/
 
     public function getDelete($id) { 
 
@@ -179,14 +198,12 @@ class QuestionsController extends \BaseController {
 
       $question = Question::find($id); 
 
-
-
       if($question) { 
 
         //We delete the question directly 
 
-        Question::delete(); 
-        return Redirect::route('index') 
+        $question->delete();
+        return Redirect::route('browse')
 
           ->with('success','Question deleted successfully!'); 
 
@@ -202,27 +219,46 @@ class QuestionsController extends \BaseController {
 
 
 	/**
-	 * Display the specified resource.
+	 * Show questions with specific tab
 	 *
-	 * @param  int  $id
+	 * @param  string $tag
 	 * @return Response
 	 */
-	public function show($id)
+	public function getTaggedWith($tag)
 	{
-		//
+		$tag = Tag::where('tag_friendly',$tag)->first();
+
+        if($tag) {
+            return View::make('qa.browsee')
+                ->with('title','Questions tagged with: '.$tag->tag)
+                ->with('questions',$tag->questions()
+                    ->with('users','tags','answers')->simplePaginate(4));
+        } else {
+            return Redirect::route('qa.browsee')
+                ->with('error','Tag not found');
+        }
 	}
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+    /**
+     * Show questions with specific tab
+     *
+     * @param  string $category
+     * @return Response
+     */
+    public function getCategory($category)
+    {
+        $category = Category::where('name',$category)->first();
+        if($category) {
+            return View::make('qa.browsee')
+                ->with('title','Category: '.$category->name)
+                ->with('questions',$category->questions()
+                    ->with('users','tags','answers')->simplePaginate(4));
+        } else {
+            return Redirect::route('qa.browsee')
+                ->with('error','Category not found');
+        }
+    }
 
 
 	/**
